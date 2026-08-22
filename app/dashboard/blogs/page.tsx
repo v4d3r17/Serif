@@ -5,6 +5,7 @@ import { Button } from '@/components/ui/button'
 import { Edit } from 'lucide-react'
 import { Badge } from '@/components/ui/badge'
 import { Tabs, TabsList, TabsTrigger, TabsContent } from '@/components/ui/tabs'
+import { CreatePostDropdown } from '@/components/create-post-dropdown'
 
 export default async function BlogsPage() {
   const supabase = await createClient()
@@ -73,7 +74,7 @@ export default async function BlogsPage() {
         </p>
       </div>
 
-      <div className="rounded-[1.25rem] border bg-card text-card-foreground shadow-sm p-6 sm:p-8 flex flex-col gap-8">
+      <div className="rounded-[1.25rem] border bg-card/60 backdrop-blur-md text-card-foreground shadow-sm p-6 sm:p-8 flex flex-col gap-8">
         <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
           <div className="flex flex-col gap-1">
             <h2 className="text-xl font-bold tracking-tight">Your blog posts</h2>
@@ -81,9 +82,7 @@ export default async function BlogsPage() {
               Track drafts, scheduled, and published posts.
             </p>
           </div>
-          <Button render={<Link href="/dashboard/blogs/new" />} nativeButton={false} className="rounded-full px-5 bg-blue-600 hover:bg-blue-700 text-white shadow-none font-medium h-9 text-sm">
-            New Post
-          </Button>
+          <CreatePostDropdown />
         </div>
 
         <Tabs defaultValue="all" className="w-full">

@@ -12,9 +12,10 @@ interface ImageUploadProps {
   value: string
   onChange: (url: string) => void
   className?: string
+  bucket?: string
 }
 
-export function ImageUpload({ value, onChange, className }: ImageUploadProps) {
+export function ImageUpload({ value, onChange, className, bucket = 'blog-images' }: ImageUploadProps) {
   const [isUploading, setIsUploading] = useState(false)
   const supabase = createClient()
 
@@ -30,14 +31,14 @@ export function ImageUpload({ value, onChange, className }: ImageUploadProps) {
       const filePath = `${fileName}`
 
       const { error: uploadError } = await supabase.storage
-        .from('blog-images')
+        .from(bucket)
         .upload(filePath, file)
 
       if (uploadError) {
         throw uploadError
       }
 
-      const { data } = supabase.storage.from('blog-images').getPublicUrl(filePath)
+      const { data } = supabase.storage.from(bucket).getPublicUrl(filePath)
       
       onChange(data.publicUrl)
     } catch (error) {

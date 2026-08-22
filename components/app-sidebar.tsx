@@ -11,7 +11,9 @@ import {
   SidebarMenuItem,
 } from "@/components/ui/sidebar"
 import Link from "next/link"
+import Image from "next/image"
 import { LogoutButton } from "@/components/logout-button"
+import { SidebarFooter, SidebarHeader } from "@/components/ui/sidebar"
 
 const items = [
   {
@@ -34,9 +36,13 @@ const items = [
 export function AppSidebar() {
   return (
     <Sidebar>
+      <SidebarHeader className="px-4 py-6">
+        <Link href="/dashboard" className="flex items-center">
+          <Image src="/logo.png" alt="Serif Logo" width={140} height={140} className="w-auto h-8 object-contain" />
+        </Link>
+      </SidebarHeader>
       <SidebarContent>
         <SidebarGroup>
-          <SidebarGroupLabel>Serif Dashboard</SidebarGroupLabel>
           <SidebarGroupContent>
             <SidebarMenu>
               {items.map((item) => (
@@ -51,13 +57,17 @@ export function AppSidebar() {
                   />
                 </SidebarMenuItem>
               ))}
-              <SidebarMenuItem className="mt-4 px-2">
-                <LogoutButton />
-              </SidebarMenuItem>
             </SidebarMenu>
           </SidebarGroupContent>
         </SidebarGroup>
       </SidebarContent>
+      <SidebarFooter className="p-4">
+        <SidebarMenu>
+          <SidebarMenuItem>
+            <LogoutButton />
+          </SidebarMenuItem>
+        </SidebarMenu>
+      </SidebarFooter>
     </Sidebar>
   )
 }

@@ -18,14 +18,14 @@ export default function Page() {
       <header className="px-4 md:px-20 py-4 md:py-6 border-b bg-background/50 backdrop-blur-md z-10">
         <div className="w-full flex items-center justify-between">
           <Link href="/" className="flex items-center">
-            <Image src="/logo.png" alt="Serif Logo" width={140} height={140} className="w-[80px] h-[80px] md:w-[140px] md:h-[140px] rounded" />
+            <Image src="/logo.png" alt="Serif Logo" width={140} height={140} className="w-auto h-[40px] md:h-[60px] object-contain" />
           </Link>
           <nav className="flex items-center gap-6 md:gap-12 lg:gap-16">
             <div className="hidden md:flex gap-10">
               <Link href="#features" className="text-base font-medium hover:text-foreground/80 transition-colors">
                 Features
               </Link>
-              <Link href="#blog" className="text-base font-medium hover:text-foreground/80 transition-colors">
+              <Link href="/blogs" className="text-base font-medium hover:text-foreground/80 transition-colors">
                 Blog
               </Link>
               <Link href="#pricing" className="text-base font-medium hover:text-foreground/80 transition-colors">
