@@ -3,7 +3,7 @@ import { notFound } from 'next/navigation'
 import Image from 'next/image'
 import Link from 'next/link'
 import { createClient } from '@/lib/server'
-import { ArrowLeft } from 'lucide-react'
+import { ArrowLeft, ArrowRight } from 'lucide-react'
 
 // Define the expected params
 interface Props {
@@ -70,12 +70,50 @@ export default async function BlogSlugPage({ params }: Props) {
   const { slug } = await params
   const supabase = await createClient()
 
-  const { data: blog } = await supabase
-    .from('blogs')
-    .select('*, profiles:user_id(first_name, avatar_url)')
-    .eq('slug', slug)
-    .eq('status', 'Published')
-    .single()
+  let blog = null;
+  let nextBlog = null;
+
+  if (slug.startsWith('dummy-')) {
+    const dummyId = parseInt(slug.replace('dummy-', ''));
+    blog = {
+      id: slug,
+      slug,
+      title: `Dummy Blog ${dummyId}`,
+      summary: 'This is a sample dummy blog to test the UI layout.',
+      body: '<p>Artificial Intelligence is revolutionizing the way we build the web...</p>',
+      image_url: 'https://images.unsplash.com/photo-1498050108023-c5249f4df085?auto=format&fit=crop&q=80&w=1200&h=800',
+      created_at: new Date().toISOString(),
+      read_time: 5,
+      profiles: { first_name: 'Test Author', avatar_url: '' }
+    }
+    if (dummyId < 3) {
+      nextBlog = {
+        slug: `dummy-${dummyId + 1}`,
+        title: `Dummy Blog ${dummyId + 1}`
+      }
+    }
+  } else {
+    const { data: dbBlog } = await supabase
+      .from('blogs')
+      .select('*, profiles:user_id(first_name, avatar_url)')
+      .eq('slug', slug)
+      .eq('status', 'Published')
+      .single()
+    blog = dbBlog;
+
+    if (blog) {
+      const { data: nextDbBlog } = await supabase
+        .from('blogs')
+        .select('slug, title')
+        .eq('status', 'Published')
+        .lt('created_at', blog.created_at)
+        .order('created_at', { ascending: false })
+        .limit(1)
+        .single()
+      
+      nextBlog = nextDbBlog;
+    }
+  }
 
   if (!blog) {
     notFound()
@@ -208,9 +246,26 @@ export default async function BlogSlugPage({ params }: Props) {
 
           {/* Article Body using Typography Plugin */}
           <div 
-            className="prose prose-lg dark:prose-invert prose-headings:font-bold prose-a:text-primary max-w-none"
+            className="prose prose-lg dark:prose-invert prose-headings:font-bold prose-a:text-primary max-w-none mb-16"
             dangerouslySetInnerHTML={{ __html: blog.body || '' }}
           />
+          
+          {/* Next Blog Navigation */}
+          {nextBlog && (
+            <div className="border-t pt-8 mt-12 flex justify-end">
+              <Link 
+                href={`/blogs/${nextBlog.slug}`}
+                className="group flex flex-col items-end text-right transition-colors"
+              >
+                <span className="text-sm font-medium text-muted-foreground mb-2 flex items-center gap-2">
+                  Next Article <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-1" />
+                </span>
+                <span className="text-xl font-bold group-hover:text-primary transition-colors">
+                  {nextBlog.title}
+                </span>
+              </Link>
+            </div>
+          )}
         </article>
       </main>
     </div>
