@@ -91,6 +91,11 @@ export default async function BlogSlugPage({ params }: Props) {
         slug: `dummy-${dummyId + 1}`,
         title: `Dummy Blog ${dummyId + 1}`
       }
+    } else {
+      nextBlog = {
+        slug: `dummy-1`,
+        title: `Dummy Blog 1`
+      }
     }
   } else {
     const { data: dbBlog } = await supabase
@@ -102,14 +107,26 @@ export default async function BlogSlugPage({ params }: Props) {
     blog = dbBlog;
 
     if (blog) {
-      const { data: nextDbBlog } = await supabase
+      let { data: nextDbBlog } = await supabase
         .from('blogs')
         .select('slug, title')
         .eq('status', 'Published')
         .lt('created_at', blog.created_at)
         .order('created_at', { ascending: false })
         .limit(1)
-        .single()
+        .maybeSingle()
+      
+      if (!nextDbBlog) {
+        // If there's no older blog, loop back to the newest one
+        const { data: firstBlog } = await supabase
+          .from('blogs')
+          .select('slug, title')
+          .eq('status', 'Published')
+          .order('created_at', { ascending: false })
+          .limit(1)
+          .maybeSingle()
+        nextDbBlog = firstBlog
+      }
       
       nextBlog = nextDbBlog;
     }

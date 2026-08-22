@@ -1,4 +1,4 @@
-import { Button } from '@/components/ui/button'
+import { buttonVariants } from '@/components/ui/button'
 import Link from 'next/link'
 import {
   Card,
@@ -23,9 +23,9 @@ export default function Page() {
                 You&apos;ve successfully signed up. Please check your email to confirm your account
                 before signing in.
               </p>
-              <Button asChild className="w-full">
-                <Link href="/auth/login">Return to Login</Link>
-              </Button>
+              <Link href="/auth/login" className={`${buttonVariants({ variant: 'default' })} w-full`}>
+                Return to Login
+              </Link>
             </CardContent>
           </Card>
         </div>

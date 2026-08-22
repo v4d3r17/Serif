@@ -58,7 +58,7 @@ function DockItem({ children, className = '', onClick, mouseX, spring, distance 
       aria-label={label}
       onKeyDown={handleKeyDown}
     >
-      {Children.map(children, child => cloneElement(child as ReactElement, { isHovered }))}
+      {Children.map(children, child => cloneElement(child as ReactElement<any>, { isHovered }))}
     </motion.div>
   );
 }
