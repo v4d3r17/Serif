@@ -1,4 +1,4 @@
-import { Home, FileText, Settings, LogOut } from "lucide-react"
+import { Home, FileText, Settings, LogOut, Compass, Bookmark } from "lucide-react"
 
 import {
   Sidebar,
@@ -25,6 +25,16 @@ const items = [
     title: "Blogs",
     url: "/dashboard/blogs",
     icon: FileText,
+  },
+  {
+    title: "Explore",
+    url: "/dashboard/explore",
+    icon: Compass,
+  },
+  {
+    title: "Saved",
+    url: "/dashboard/saved",
+    icon: Bookmark,
   },
   {
     title: "Settings",
