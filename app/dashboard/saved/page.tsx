@@ -24,9 +24,9 @@ export default async function SavedPage() {
   return (
     <div className="flex flex-col gap-8 max-w-6xl mx-auto w-full pb-10">
       <div className="flex flex-col gap-1.5">
-        <h1 className="text-3xl font-bold tracking-tight">Saved Blogs</h1>
+        <h1 className="text-3xl font-bold tracking-tight">Saved Stories</h1>
         <p className="text-muted-foreground text-sm font-medium">
-          Your personal reading list of bookmarked posts.
+          Posts you&apos;ve bookmarked for later reading.
         </p>
       </div>
 
@@ -36,15 +36,18 @@ export default async function SavedPage() {
         </div>
       ) : (
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-          {saves.map((save: any) => {
-            const blog = Array.isArray(save.blogs) ? save.blogs[0] : save.blogs;
+          {saves.map((save: unknown) => {
+            const blog = Array.isArray((save as any).blogs) ? (save as any).blogs[0] : (save as any).blogs;
             if (!blog) return null;
 
             const author = Array.isArray(blog.profiles) ? blog.profiles[0] : blog.profiles;
-            const authorName = author?.first_name || 'Anonymous';
-            const authorAvatar = author?.avatar_url || '';
+            // eslint-disable-next-line @typescript-eslint/no-explicit-any
+            const authorName = (author as any)?.first_name || 'Anonymous';
+            // eslint-disable-next-line @typescript-eslint/no-explicit-any
+            const authorAvatar = (author as any)?.avatar_url || '';
             
             const likeCount = blog.blog_likes?.length || 0;
+            // eslint-disable-next-line @typescript-eslint/no-explicit-any
             const isLiked = blog.blog_likes?.some((l: any) => l.user_id === user.id) || false;
             const isSaved = true; // inherently saved if it's in this list
 

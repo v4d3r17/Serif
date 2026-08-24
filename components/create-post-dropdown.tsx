@@ -61,9 +61,9 @@ export function CreatePostDropdown() {
       } else {
         router.refresh()
       }
-    } catch (error: any) {
+    } catch (error: unknown) {
       console.error(error)
-      toast.error(error.message || 'An error occurred while generating the post.')
+      if (error instanceof Error) toast.error(error.message)
     } finally {
       setIsGenerating(false)
     }

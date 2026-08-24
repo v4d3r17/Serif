@@ -9,6 +9,7 @@ import { Button } from '@/components/ui/button'
 import { toggleLike, toggleSave } from '@/app/dashboard/actions'
 
 interface BlogCardProps {
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   blog: any;
   authorName: string;
   authorAvatar: string;

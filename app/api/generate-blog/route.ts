@@ -61,10 +61,10 @@ export async function POST(req: Request) {
     }
 
     return NextResponse.json({ id: blog.id })
-  } catch (error: any) {
+  } catch (error: Error | unknown) {
     console.error('Error generating blog:', error)
     return NextResponse.json(
-      { error: error.message || 'An error occurred while generating the blog post.' }, 
+      { error: (error instanceof Error ? error.message : 'An error occurred') || 'An error occurred while generating the blog post.' }, 
       { status: 500 }
     )
   }

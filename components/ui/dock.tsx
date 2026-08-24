@@ -9,7 +9,9 @@ interface DockItemProps {
   children: ReactNode;
   className?: string;
   onClick?: () => void;
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   mouseX?: any;
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   spring?: any;
   distance?: number;
   magnification?: number;
@@ -58,6 +60,7 @@ function DockItem({ children, className = '', onClick, mouseX, spring, distance 
       aria-label={label}
       onKeyDown={handleKeyDown}
     >
+      {/* eslint-disable-next-line @typescript-eslint/no-explicit-any */}
       {Children.map(children, child => cloneElement(child as ReactElement<any>, { isHovered }))}
     </motion.div>
   );
@@ -66,6 +69,7 @@ function DockItem({ children, className = '', onClick, mouseX, spring, distance 
 interface DockLabelProps {
   children: ReactNode;
   className?: string;
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   isHovered?: any;
 }
 

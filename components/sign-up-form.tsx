@@ -23,6 +23,7 @@ export function SignUpForm({ className, ...props }: React.ComponentPropsWithoutR
   const [repeatPassword, setRepeatPassword] = useState('')
   const [error, setError] = useState<string | null>(null)
   const [isLoading, setIsLoading] = useState(false)
+  const [isSuccess, setIsSuccess] = useState(false)
   const router = useRouter()
 
   const handleSignUp = async (e: React.FormEvent) => {
@@ -45,13 +46,56 @@ export function SignUpForm({ className, ...props }: React.ComponentPropsWithoutR
           emailRedirectTo: `${window.location.origin}/dashboard`,
         },
       })
+      // Supabase does not throw an error if signup succeeds but email confirmation is required.
       if (error) throw error
-      router.push('/auth/sign-up-success')
+      setIsSuccess(true)
     } catch (error: unknown) {
       setError(error instanceof Error ? error.message : 'An error occurred')
     } finally {
       setIsLoading(false)
     }
+  }
+
+  const handleResend = async () => {
+    const supabase = createClient()
+    setIsLoading(true)
+    setError(null)
+    try {
+      const { error } = await supabase.auth.resend({
+        type: 'signup',
+        email,
+        options: {
+          emailRedirectTo: `${window.location.origin}/dashboard`,
+        }
+      })
+      if (error) throw error
+    } catch (error: unknown) {
+      setError(error instanceof Error ? error.message : 'An error occurred')
+    } finally {
+      setIsLoading(false)
+    }
+  }
+
+  if (isSuccess) {
+    return (
+      <div className={cn('flex flex-col gap-6', className)} {...props}>
+        <Card className="!bg-white/30 dark:!bg-black/30 backdrop-blur-md border border-white/20 shadow-xl">
+          <CardHeader>
+            <CardTitle className="text-2xl">Account created!</CardTitle>
+            <CardDescription>We&apos;ve sent a verification email to your email address.</CardDescription>
+          </CardHeader>
+          <CardContent>
+            <div className="flex flex-col gap-4 text-center">
+              <p className="text-sm">Please verify your email before continuing.</p>
+              {error && <p className="text-sm text-red-500">{error}</p>}
+              <Button onClick={handleResend} variant="outline" disabled={isLoading}>
+                {isLoading ? 'Sending...' : 'Resend verification email'}
+              </Button>
+            </div>
+          </CardContent>
+        </Card>
+      </div>
+    )
   }
 
   return (

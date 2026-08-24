@@ -85,7 +85,7 @@ export default async function DashboardHomePage() {
 
         {recentBlogs.length === 0 ? (
           <div className="py-12 text-center border rounded-xl border-dashed bg-muted/20">
-            <p className="text-sm text-muted-foreground mb-4">You don't have any blog posts yet.</p>
+            <p className="text-sm text-muted-foreground mb-4">You don&apos;t have any blog posts yet.</p>
             <Button render={<Link href="/dashboard/blogs/new" />} nativeButton={false} className="rounded-full px-5 bg-blue-600 hover:bg-blue-700 text-white shadow-none">
               Create your first post
             </Button>

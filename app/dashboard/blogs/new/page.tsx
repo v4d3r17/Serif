@@ -33,6 +33,7 @@ export default function NewBlogPage() {
   const [body, setBody] = useState('')
   const [imageUrl, setImageUrl] = useState('')
   const [status, setStatus] = useState('Draft')
+  const [visibility, setVisibility] = useState('Public')
   const [isSubmitting, setIsSubmitting] = useState(false)
 
   const handleSubmit = async (e: React.FormEvent) => {
@@ -61,6 +62,7 @@ export default function NewBlogPage() {
       body,
       image_url: imageUrl,
       status,
+      visibility,
       slug,
       read_time: readTime
     })
@@ -121,6 +123,19 @@ export default function NewBlogPage() {
             <SelectContent>
               <SelectItem value="Draft">Draft</SelectItem>
               <SelectItem value="Published">Published</SelectItem>
+            </SelectContent>
+          </Select>
+        </div>
+
+        <div className="space-y-2">
+          <Label htmlFor="visibility">Visibility</Label>
+          <Select value={visibility} onValueChange={(v) => v && setVisibility(v)}>
+            <SelectTrigger>
+              <SelectValue placeholder="Select visibility" />
+            </SelectTrigger>
+            <SelectContent>
+              <SelectItem value="Public">Public (Anyone can view)</SelectItem>
+              <SelectItem value="Private">Private (Only you can view)</SelectItem>
             </SelectContent>
           </Select>
         </div>

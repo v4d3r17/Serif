@@ -14,6 +14,8 @@ export default function SettingsPage() {
   const supabase = createClient()
   
   const [firstName, setFirstName] = useState('')
+  const [username, setUsername] = useState('')
+  const [bio, setBio] = useState('')
   const [avatarUrl, setAvatarUrl] = useState('')
   const [email, setEmail] = useState('')
   const [isSubmitting, setIsSubmitting] = useState(false)
@@ -38,6 +40,8 @@ export default function SettingsPage() {
 
       if (data) {
         setFirstName(data.first_name || '')
+        setUsername(data.username || '')
+        setBio(data.bio || '')
         setAvatarUrl(data.avatar_url || '')
       }
       setIsLoading(false)
@@ -62,6 +66,8 @@ export default function SettingsPage() {
       .from('profiles')
       .update({
         first_name: firstName,
+        username: username,
+        bio: bio,
         avatar_url: avatarUrl,
         updated_at: new Date().toISOString()
       })
@@ -84,8 +90,8 @@ export default function SettingsPage() {
       if (!res.ok) throw new Error('Failed to seed data')
       alert('Successfully injected 5 dummy blogs into your account!')
       router.push('/dashboard')
-    } catch (err: any) {
-      alert(err.message)
+    } catch (err: unknown) {
+      if (err instanceof Error) alert(err.message)
     } finally {
       setIsSeeding(false)
     }
@@ -103,8 +109,8 @@ export default function SettingsPage() {
       await supabase.auth.signOut()
       alert('Your account deletion request has been processed.')
       router.push('/auth/login')
-    } catch (err: any) {
-      alert(err.message)
+    } catch (err: unknown) {
+      if (err instanceof Error) alert(err.message)
     }
   }
 
@@ -158,6 +164,26 @@ export default function SettingsPage() {
                 value={firstName}
                 onChange={(e) => setFirstName(e.target.value)}
                 placeholder="Jane Doe"
+              />
+            </div>
+
+            <div className="space-y-2 max-w-md">
+              <Label htmlFor="username">Username</Label>
+              <Input
+                id="username"
+                value={username}
+                onChange={(e) => setUsername(e.target.value)}
+                placeholder="janedoe"
+              />
+            </div>
+
+            <div className="space-y-2 max-w-md">
+              <Label htmlFor="bio">Bio</Label>
+              <Input
+                id="bio"
+                value={bio}
+                onChange={(e) => setBio(e.target.value)}
+                placeholder="A short bio..."
               />
             </div>
           </div>

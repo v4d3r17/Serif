@@ -68,6 +68,7 @@ export default async function ExplorePage() {
       blog_saves(user_id)
     `)
     .eq('status', 'Published')
+    .eq('visibility', 'Public')
     .order('created_at', { ascending: false })
 
   const allBlogs = [...(blogs || []), ...dummyBlogs];
@@ -81,7 +82,7 @@ export default async function ExplorePage() {
         </p>
       </div>
 
-      <div className="w-full h-[500px] relative">
+      <div className="w-full h-[300px] md:h-[500px] relative">
         <DepthCarousel
           items={carouselItems}
           cardWidth={800}
@@ -110,7 +111,9 @@ export default async function ExplorePage() {
             const authorAvatar = author?.avatar_url || '';
             
             const likeCount = blog.blog_likes?.length || 0;
+            // eslint-disable-next-line @typescript-eslint/no-explicit-any
             const isLiked = blog.blog_likes?.some((l: any) => l.user_id === user.id) || false;
+            // eslint-disable-next-line @typescript-eslint/no-explicit-any
             const isSaved = blog.blog_saves?.some((s: any) => s.user_id === user.id) || false;
 
             return (

@@ -29,6 +29,7 @@ export default function EditBlogPage() {
   const [body, setBody] = useState('')
   const [imageUrl, setImageUrl] = useState('')
   const [status, setStatus] = useState('Draft')
+  const [visibility, setVisibility] = useState('Public')
   const [isSubmitting, setIsSubmitting] = useState(false)
   const [isLoading, setIsLoading] = useState(true)
 
@@ -54,6 +55,7 @@ export default function EditBlogPage() {
         setBody(data.body || '')
         setImageUrl(data.image_url || '')
         setStatus(data.status || 'Draft')
+        setVisibility(data.visibility || 'Public')
       }
       setIsLoading(false)
     }
@@ -84,6 +86,7 @@ export default function EditBlogPage() {
         body,
         image_url: imageUrl,
         status,
+        visibility,
         read_time: readTime,
         updated_at: new Date().toISOString()
       })
@@ -173,6 +176,19 @@ export default function EditBlogPage() {
             <SelectContent>
               <SelectItem value="Draft">Draft</SelectItem>
               <SelectItem value="Published">Published</SelectItem>
+            </SelectContent>
+          </Select>
+        </div>
+
+        <div className="space-y-2">
+          <Label htmlFor="visibility">Visibility</Label>
+          <Select value={visibility} onValueChange={(v) => v && setVisibility(v)}>
+            <SelectTrigger>
+              <SelectValue placeholder="Select visibility" />
+            </SelectTrigger>
+            <SelectContent>
+              <SelectItem value="Public">Public (Anyone can view)</SelectItem>
+              <SelectItem value="Private">Private (Only you can view)</SelectItem>
             </SelectContent>
           </Select>
         </div>

@@ -148,7 +148,9 @@ export default async function BlogSlugPage({ params }: Props) {
     dateModified: blog.updated_at,
     author: {
       '@type': 'Person',
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
       name: blog.profiles?.first_name || 'Anonymous',
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
       image: blog.profiles?.avatar_url || undefined,
     },
     mainEntityOfPage: {

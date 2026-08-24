@@ -1,3 +1,4 @@
+"use client"
 import { Home, FileText, Settings, LogOut, Compass, Bookmark } from "lucide-react"
 
 import {
@@ -9,11 +10,13 @@ import {
   SidebarMenu,
   SidebarMenuButton,
   SidebarMenuItem,
+  SidebarFooter,
+  SidebarHeader,
+  useSidebar,
 } from "@/components/ui/sidebar"
 import Link from "next/link"
 import Image from "next/image"
 import { LogoutButton } from "@/components/logout-button"
-import { SidebarFooter, SidebarHeader } from "@/components/ui/sidebar"
 
 const items = [
   {
@@ -44,6 +47,8 @@ const items = [
 ]
 
 export function AppSidebar() {
+  const { isMobile, setOpenMobile } = useSidebar()
+  
   return (
     <Sidebar>
       <SidebarHeader className="px-4 py-6">
@@ -58,6 +63,9 @@ export function AppSidebar() {
               {items.map((item) => (
                 <SidebarMenuItem key={item.title}>
                   <SidebarMenuButton
+                    onClick={() => {
+                      if (isMobile) setOpenMobile(false)
+                    }}
                     render={
                       <Link href={item.url}>
                         <item.icon />
