@@ -1,15 +1,9 @@
-import { SidebarProvider, SidebarTrigger } from "@/components/ui/sidebar"
-import { AppSidebar } from "@/components/app-sidebar"
-import {
-  Breadcrumb,
-  BreadcrumbItem,
-  BreadcrumbLink,
-  BreadcrumbList,
-  BreadcrumbPage,
-  BreadcrumbSeparator,
-} from "@/components/ui/breadcrumb"
-import { Separator } from "@/components/ui/separator"
 import Image from "next/image"
+import Link from "next/link"
+import { ParallaxBg } from "@/components/ui/parallax-bg"
+import { DashboardNavCarousel } from "@/components/dashboard-nav-carousel"
+import { DashboardMobileNav } from "@/components/dashboard-mobile-nav"
+import { LogoutButton } from "@/components/logout-button"
 
 export default function DashboardLayout({
   children,
@@ -17,39 +11,46 @@ export default function DashboardLayout({
   children: React.ReactNode
 }) {
   return (
-    <SidebarProvider>
-      <div className="relative min-h-screen flex w-full overflow-hidden">
-        {/* Background Image Container */}
-        <div className="absolute inset-0 -z-10">
-          <Image 
-            src="/background.png" 
-            alt="Background" 
-            fill 
-            className="object-cover opacity-80" 
-            priority
+    <div className="relative min-h-screen flex flex-col w-full overflow-hidden">
+      {/* Background Image Container — parallax */}
+      <ParallaxBg
+        src="/background.png"
+        alt="Background"
+        shift={10}
+        className="absolute inset-0 -z-10"
+      />
+
+      {/* Top Header: On desktop has carousel, on mobile/tablet shows Logo + Logout */}
+      <header className="flex items-center justify-between gap-4 border-b bg-background/50 backdrop-blur-md px-4 py-2.5 transition-shadow duration-300 hover:shadow-sm z-20">
+        {/* Left: Logo */}
+        <Link href="/dashboard" className="flex items-center flex-shrink-0">
+          <Image
+            src="/logo.png"
+            alt="Serif Logo"
+            width={120}
+            height={120}
+            className="w-auto h-7 md:h-8 object-contain"
           />
+        </Link>
+
+        {/* Center: Carousel Navbar (Desktop / large screens) */}
+        <div className="hidden lg:flex flex-1 items-center justify-center overflow-visible">
+          <DashboardNavCarousel />
         </div>
 
-        <AppSidebar />
-        <div className="flex flex-1 flex-col transition-all duration-300 ease-in-out relative z-10">
-          <header className="flex h-16 shrink-0 items-center gap-2 border-b bg-background/50 backdrop-blur-md px-4">
-            <SidebarTrigger className="-ml-1" />
-            <Separator orientation="vertical" className="mr-2 h-4" />
-            <Breadcrumb>
-              <BreadcrumbList>
-                <BreadcrumbItem className="hidden md:block">
-                  <BreadcrumbLink href="/dashboard">
-                    Dashboard
-                  </BreadcrumbLink>
-                </BreadcrumbItem>
-              </BreadcrumbList>
-            </Breadcrumb>
-          </header>
-          <main className="flex-1 overflow-auto p-4 md:p-6 z-10">
-            {children}
-          </main>
+        {/* Right: Logout button */}
+        <div className="flex-shrink-0">
+          <LogoutButton />
         </div>
-      </div>
-    </SidebarProvider>
+      </header>
+
+      {/* Main Content: padded at bottom on mobile/tablet for bottom nav */}
+      <main className="flex-1 overflow-auto p-4 md:p-6 pb-24 lg:pb-6 z-10">
+        {children}
+      </main>
+
+      {/* Mobile & Tablet Instagram-Style Bottom Navigation Bar (Icons Only) */}
+      <DashboardMobileNav />
+    </div>
   )
 }

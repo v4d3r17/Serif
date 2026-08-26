@@ -3,7 +3,6 @@
 import { useRouter } from 'next/navigation'
 
 import { createClient } from '@/lib/client'
-import { SidebarMenuButton } from '@/components/ui/sidebar'
 import { LogOut } from 'lucide-react'
 
 export function LogoutButton() {
@@ -16,9 +15,13 @@ export function LogoutButton() {
   }
 
   return (
-    <SidebarMenuButton onClick={logout} className="w-full text-muted-foreground hover:text-foreground">
+    <button
+      onClick={logout}
+      className="inline-flex items-center gap-2 rounded-full px-3 py-1.5 text-sm font-medium text-muted-foreground hover:text-foreground hover:bg-muted/60 transition-colors cursor-pointer"
+      aria-label="Logout"
+    >
       <LogOut className="h-4 w-4" />
-      <span>Logout</span>
-    </SidebarMenuButton>
+      <span className="hidden sm:inline">Logout</span>
+    </button>
   )
 }

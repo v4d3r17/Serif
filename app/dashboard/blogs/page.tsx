@@ -6,6 +6,7 @@ import { Edit } from 'lucide-react'
 import { Badge } from '@/components/ui/badge'
 import { Tabs, TabsList, TabsTrigger, TabsContent } from '@/components/ui/tabs'
 import { CreatePostDropdown } from '@/components/create-post-dropdown'
+import { DashboardHeading, DashboardSection } from '@/components/dashboard-animations'
 
 export default async function BlogsPage() {
   const supabase = await createClient()
@@ -43,7 +44,7 @@ export default async function BlogsPage() {
     return (
       <div className="flex flex-col gap-4 mt-4">
         {filteredBlogs.map((blog) => (
-          <div key={blog.id} className="flex flex-col sm:flex-row sm:items-center justify-between rounded-xl border p-5 hover:bg-muted/40 transition-colors gap-4">
+          <div key={blog.id} className="serif-card-3d flex flex-col sm:flex-row sm:items-center justify-between rounded-xl border p-5 hover:bg-muted/40 transition-colors gap-4">
             <div className="flex flex-col gap-1">
               <span className="font-semibold text-base">{blog.title}</span>
               <span className="text-xs text-muted-foreground font-medium">
@@ -54,7 +55,7 @@ export default async function BlogsPage() {
               <Badge variant={blog.status === 'Published' ? 'default' : 'secondary'} className="rounded-full px-3 shadow-none">
                 {blog.status}
               </Badge>
-              <Button variant="ghost" size="icon-sm" render={<Link href={`/dashboard/blogs/${blog.id}/edit`} />} nativeButton={false}>
+              <Button variant="ghost" size="icon-sm" render={<Link href={`/dashboard/blogs/${blog.id}/edit`} />} nativeButton={false} className="transition-transform duration-200 hover:scale-110">
                 <Edit className="h-4 w-4" />
                 <span className="sr-only">Edit</span>
               </Button>
@@ -67,37 +68,41 @@ export default async function BlogsPage() {
 
   return (
     <div className="flex flex-col gap-8 max-w-5xl mx-auto w-full pb-10">
-      <div className="flex flex-col gap-1.5">
-        <h1 className="text-3xl font-bold tracking-tight">Blogs</h1>
-        <p className="text-muted-foreground text-sm font-medium">
-          Review drafts, scheduled posts, and everything that is live.
-        </p>
-      </div>
-
-      <div className="rounded-[1.25rem] border bg-card/60 backdrop-blur-md text-card-foreground shadow-sm p-6 sm:p-8 flex flex-col gap-8">
-        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
-          <div className="flex flex-col gap-1">
-            <h2 className="text-xl font-bold tracking-tight">Your blog posts</h2>
-            <p className="text-sm text-muted-foreground font-medium">
-              Track drafts, scheduled, and published posts.
-            </p>
-          </div>
-          <CreatePostDropdown />
+      <DashboardHeading>
+        <div className="flex flex-col gap-1.5">
+          <h1 className="text-3xl font-bold tracking-tight">Blogs</h1>
+          <p className="text-muted-foreground text-sm font-medium">
+            Review drafts, scheduled posts, and everything that is live.
+          </p>
         </div>
+      </DashboardHeading>
 
-        <Tabs defaultValue="all" className="w-full">
-          <TabsList className="w-full justify-start rounded-full bg-muted/60 p-1.5 h-auto border">
-            <TabsTrigger value="all" className="rounded-full flex-1 py-1.5 text-xs font-semibold data-active:shadow-sm">All ({allCount})</TabsTrigger>
-            <TabsTrigger value="draft" className="rounded-full flex-1 py-1.5 text-xs font-semibold data-active:shadow-sm">Draft ({draftCount})</TabsTrigger>
-            <TabsTrigger value="published" className="rounded-full flex-1 py-1.5 text-xs font-semibold data-active:shadow-sm">Published ({publishedCount})</TabsTrigger>
-            <TabsTrigger value="scheduled" className="rounded-full flex-1 py-1.5 text-xs font-semibold data-active:shadow-sm disabled:opacity-50">Scheduled ({scheduledCount})</TabsTrigger>
-          </TabsList>
-          <TabsContent value="all" className="mt-2 outline-none">{renderBlogList()}</TabsContent>
-          <TabsContent value="draft" className="mt-2 outline-none">{renderBlogList('Draft')}</TabsContent>
-          <TabsContent value="published" className="mt-2 outline-none">{renderBlogList('Published')}</TabsContent>
-          <TabsContent value="scheduled" className="mt-2 outline-none">{renderBlogList('Scheduled')}</TabsContent>
-        </Tabs>
-      </div>
+      <DashboardSection delay={0.15}>
+        <div className="rounded-[1.25rem] border bg-card/60 backdrop-blur-md text-card-foreground shadow-sm p-6 sm:p-8 flex flex-col gap-8">
+          <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+            <div className="flex flex-col gap-1">
+              <h2 className="text-xl font-bold tracking-tight">Your blog posts</h2>
+              <p className="text-sm text-muted-foreground font-medium">
+                Track drafts, scheduled, and published posts.
+              </p>
+            </div>
+            <CreatePostDropdown />
+          </div>
+
+          <Tabs defaultValue="all" className="w-full">
+            <TabsList className="w-full justify-start rounded-full bg-muted/60 p-1.5 h-auto border">
+              <TabsTrigger value="all" className="rounded-full flex-1 py-1.5 text-xs font-semibold data-active:shadow-sm">All ({allCount})</TabsTrigger>
+              <TabsTrigger value="draft" className="rounded-full flex-1 py-1.5 text-xs font-semibold data-active:shadow-sm">Draft ({draftCount})</TabsTrigger>
+              <TabsTrigger value="published" className="rounded-full flex-1 py-1.5 text-xs font-semibold data-active:shadow-sm">Published ({publishedCount})</TabsTrigger>
+              <TabsTrigger value="scheduled" className="rounded-full flex-1 py-1.5 text-xs font-semibold data-active:shadow-sm disabled:opacity-50">Scheduled ({scheduledCount})</TabsTrigger>
+            </TabsList>
+            <TabsContent value="all" className="mt-2 outline-none">{renderBlogList()}</TabsContent>
+            <TabsContent value="draft" className="mt-2 outline-none">{renderBlogList('Draft')}</TabsContent>
+            <TabsContent value="published" className="mt-2 outline-none">{renderBlogList('Published')}</TabsContent>
+            <TabsContent value="scheduled" className="mt-2 outline-none">{renderBlogList('Scheduled')}</TabsContent>
+          </Tabs>
+        </div>
+      </DashboardSection>
     </div>
   )
 }

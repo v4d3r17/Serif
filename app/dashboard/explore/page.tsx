@@ -2,6 +2,7 @@ import { createClient } from '@/lib/server'
 import { redirect } from 'next/navigation'
 import { BlogCard } from '@/components/blog-card'
 import DepthCarousel from '@/components/ui/depth-carousel'
+import { DashboardHeading, DashboardSection } from '@/components/dashboard-animations'
 
 const dummyBlogs = [
   {
@@ -75,12 +76,14 @@ export default async function ExplorePage() {
 
   return (
     <div className="flex flex-col gap-8 max-w-6xl mx-auto w-full pb-10">
-      <div className="flex flex-col gap-1.5">
-        <h1 className="text-3xl font-bold tracking-tight">Explore</h1>
-        <p className="text-muted-foreground text-sm font-medium">
-          Discover incredible stories published by the community.
-        </p>
-      </div>
+      <DashboardHeading>
+        <div className="flex flex-col gap-1.5">
+          <h1 className="text-3xl font-bold tracking-tight">Explore</h1>
+          <p className="text-muted-foreground text-sm font-medium">
+            Discover incredible stories published by the community.
+          </p>
+        </div>
+      </DashboardHeading>
 
       <div className="w-full h-[300px] md:h-[500px] relative">
         <DepthCarousel
@@ -102,34 +105,36 @@ export default async function ExplorePage() {
         />
       </div>
 
-      <div className="flex flex-col gap-4 mt-4">
-        <h2 className="text-2xl font-semibold tracking-tight">Latest Stories</h2>
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-          {allBlogs.map((blog) => {
-            const author = Array.isArray(blog.profiles) ? blog.profiles[0] : blog.profiles;
-            const authorName = author?.first_name || 'Anonymous';
-            const authorAvatar = author?.avatar_url || '';
-            
-            const likeCount = blog.blog_likes?.length || 0;
-            // eslint-disable-next-line @typescript-eslint/no-explicit-any
-            const isLiked = blog.blog_likes?.some((l: any) => l.user_id === user.id) || false;
-            // eslint-disable-next-line @typescript-eslint/no-explicit-any
-            const isSaved = blog.blog_saves?.some((s: any) => s.user_id === user.id) || false;
+      <DashboardSection delay={0.1}>
+        <div className="flex flex-col gap-4 mt-4">
+          <h2 className="text-2xl font-semibold tracking-tight">Latest Stories</h2>
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+            {allBlogs.map((blog) => {
+              const author = Array.isArray(blog.profiles) ? blog.profiles[0] : blog.profiles;
+              const authorName = author?.first_name || 'Anonymous';
+              const authorAvatar = author?.avatar_url || '';
+              
+              const likeCount = blog.blog_likes?.length || 0;
+              // eslint-disable-next-line @typescript-eslint/no-explicit-any
+              const isLiked = blog.blog_likes?.some((l: any) => l.user_id === user.id) || false;
+              // eslint-disable-next-line @typescript-eslint/no-explicit-any
+              const isSaved = blog.blog_saves?.some((s: any) => s.user_id === user.id) || false;
 
-            return (
-              <BlogCard
-                key={blog.id}
-                blog={blog}
-                authorName={authorName}
-                authorAvatar={authorAvatar}
-                initialLiked={isLiked}
-                initialSaved={isSaved}
-                likeCount={likeCount}
-              />
-            )
-          })}
+              return (
+                <BlogCard
+                  key={blog.id}
+                  blog={blog}
+                  authorName={authorName}
+                  authorAvatar={authorAvatar}
+                  initialLiked={isLiked}
+                  initialSaved={isSaved}
+                  likeCount={likeCount}
+                />
+              )
+            })}
+          </div>
         </div>
-      </div>
+      </DashboardSection>
     </div>
   )
 }

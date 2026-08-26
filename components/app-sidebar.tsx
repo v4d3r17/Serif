@@ -66,9 +66,10 @@ export function AppSidebar() {
                     onClick={() => {
                       if (isMobile) setOpenMobile(false)
                     }}
+                    className="transition-transform duration-200 hover:translate-x-0.5"
                     render={
                       <Link href={item.url}>
-                        <item.icon />
+                        <item.icon className="transition-transform duration-200 group-hover:scale-105" />
                         <span>{item.title}</span>
                       </Link>
                     }

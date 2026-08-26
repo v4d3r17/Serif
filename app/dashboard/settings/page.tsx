@@ -8,6 +8,7 @@ import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
 import { ImageUpload } from '@/components/image-upload'
 import { Database, ShieldCheck, UserCircle, Save } from 'lucide-react'
+import { FadeIn } from '@/components/ui/fade-in'
 
 export default function SettingsPage() {
   const router = useRouter()
@@ -130,17 +131,20 @@ export default function SettingsPage() {
 
   return (
     <div className="flex flex-col gap-8 max-w-4xl mx-auto w-full pb-10">
-      <div className="flex items-center justify-between">
-        <div>
-          <h1 className="text-3xl font-bold tracking-tight">Settings</h1>
-          <p className="text-muted-foreground">Manage your account settings and preferences.</p>
+      <FadeIn yOffset={15} duration={0.5}>
+        <div className="flex items-center justify-between">
+          <div>
+            <h1 className="text-3xl font-bold tracking-tight">Settings</h1>
+            <p className="text-muted-foreground">Manage your account settings and preferences.</p>
+          </div>
         </div>
-      </div>
+      </FadeIn>
       
       <div className="grid gap-6">
         
         {/* Public Profile Section */}
-        <form onSubmit={handleSubmit} className="flex flex-col rounded-xl border bg-card/60 backdrop-blur-md overflow-hidden shadow-sm">
+        <FadeIn yOffset={15} delay={0.1} duration={0.5}>
+        <form onSubmit={handleSubmit} className="serif-card-3d flex flex-col rounded-xl border bg-card/60 backdrop-blur-md overflow-hidden shadow-sm">
           <div className="p-6 border-b border-border/50 bg-muted/20 flex items-center gap-3">
             <UserCircle className="w-5 h-5 text-blue-500" />
             <h2 className="text-lg font-semibold">Public Profile</h2>
@@ -189,15 +193,17 @@ export default function SettingsPage() {
           </div>
           
           <div className="p-4 bg-muted/20 border-t flex justify-end">
-            <Button type="submit" disabled={isSubmitting} className="gap-2 bg-blue-600 hover:bg-blue-700">
+            <Button type="submit" disabled={isSubmitting} className="serif-btn-3d gap-2 bg-blue-600 hover:bg-blue-700">
               <Save className="w-4 h-4" />
               {isSubmitting ? 'Saving...' : 'Save Profile'}
             </Button>
           </div>
         </form>
+        </FadeIn>
 
         {/* Account Security Section */}
-        <div className="flex flex-col rounded-xl border bg-card/60 backdrop-blur-md overflow-hidden shadow-sm">
+        <FadeIn yOffset={15} delay={0.2} duration={0.5}>
+        <div className="serif-card-3d flex flex-col rounded-xl border bg-card/60 backdrop-blur-md overflow-hidden shadow-sm">
           <div className="p-6 border-b border-border/50 bg-muted/20 flex items-center gap-3">
             <ShieldCheck className="w-5 h-5 text-emerald-500" />
             <h2 className="text-lg font-semibold">Account & Security</h2>
@@ -225,9 +231,11 @@ export default function SettingsPage() {
             </div>
           </div>
         </div>
+        </FadeIn>
 
         {/* Developer Tools Section */}
-        <div className="flex flex-col rounded-xl border border-border/50 bg-card/60 backdrop-blur-md overflow-hidden shadow-sm">
+        <FadeIn yOffset={15} delay={0.3} duration={0.5}>
+        <div className="serif-card-3d flex flex-col rounded-xl border border-border/50 bg-card/60 backdrop-blur-md overflow-hidden shadow-sm">
           <div className="p-6 border-b border-border/50 bg-muted/20 flex items-center gap-3">
             <Database className="w-5 h-5 text-muted-foreground" />
             <h2 className="text-lg font-semibold text-foreground">Developer Tools</h2>
@@ -249,9 +257,11 @@ export default function SettingsPage() {
             </div>
           </div>
         </div>
+        </FadeIn>
 
         {/* Danger Zone Section */}
-        <div className="flex flex-col rounded-xl border border-destructive/30 bg-destructive/5 backdrop-blur-md overflow-hidden shadow-sm mt-4">
+        <FadeIn yOffset={15} delay={0.4} duration={0.5}>
+        <div className="serif-card-3d flex flex-col rounded-xl border border-destructive/30 bg-destructive/5 backdrop-blur-md overflow-hidden shadow-sm mt-4">
           <div className="p-6 border-b border-destructive/20 bg-destructive/10 flex items-center gap-3">
             <Database className="w-5 h-5 text-destructive" />
             <h2 className="text-lg font-semibold text-destructive">Danger Zone</h2>
@@ -274,6 +284,7 @@ export default function SettingsPage() {
             </div>
           </div>
         </div>
+        </FadeIn>
 
       </div>
     </div>

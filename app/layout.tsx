@@ -3,6 +3,7 @@ import { Inter, Playfair_Display, Geist_Mono } from "next/font/google";
 import { Toaster } from "@/components/ui/sonner";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import { ScrollToTop } from "@/components/scroll-to-top";
+import { PublicMobileNav } from "@/components/public-mobile-nav";
 import "./globals.css";
 
 const inter = Inter({

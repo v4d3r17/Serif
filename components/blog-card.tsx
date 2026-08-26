@@ -40,7 +40,7 @@ export function BlogCard({ blog, authorName, authorAvatar, initialLiked, initial
   }
 
   return (
-    <div className="relative flex flex-col rounded-xl border bg-card/60 backdrop-blur-md overflow-hidden shadow-sm hover:shadow-md transition-shadow group">
+    <div className="serif-card-3d relative flex flex-col rounded-xl border bg-card/60 backdrop-blur-md overflow-hidden shadow-sm hover:shadow-md transition-shadow group">
       
       {/* Absolute link to make the entire card clickable */}
       <Link href={`/blogs/${blog.slug}`} className="absolute inset-0 z-10">
@@ -54,10 +54,10 @@ export function BlogCard({ blog, authorName, authorAvatar, initialLiked, initial
             src={blog.image_url} 
             alt={blog.title} 
             fill 
-            className="object-cover transition-transform group-hover:scale-105" 
+            className="object-cover transition-transform duration-500 group-hover:scale-105" 
           />
         ) : (
-          <div className="w-full h-full bg-muted flex items-center justify-center text-muted-foreground transition-transform group-hover:scale-105">
+          <div className="w-full h-full bg-muted flex items-center justify-center text-muted-foreground transition-transform duration-500 group-hover:scale-105">
             No Image
           </div>
         )}
@@ -94,7 +94,7 @@ export function BlogCard({ blog, authorName, authorAvatar, initialLiked, initial
           <Button 
             variant="ghost" 
             size="sm" 
-            className={`gap-1.5 hover:bg-transparent ${liked ? 'text-red-500 hover:text-red-600' : 'text-muted-foreground'}`}
+            className={`gap-1.5 hover:bg-transparent transition-transform duration-200 hover:scale-110 ${liked ? 'text-red-500 hover:text-red-600' : 'text-muted-foreground'}`}
             onClick={handleLike}
           >
             <Heart className={`h-5 w-5 ${liked ? 'fill-current' : ''}`} />
@@ -104,7 +104,7 @@ export function BlogCard({ blog, authorName, authorAvatar, initialLiked, initial
           <Button 
             variant="ghost" 
             size="sm"
-            className={`hover:bg-transparent ${saved ? 'text-blue-600 hover:text-blue-700' : 'text-muted-foreground'}`}
+            className={`hover:bg-transparent transition-transform duration-200 hover:scale-110 ${saved ? 'text-blue-600 hover:text-blue-700' : 'text-muted-foreground'}`}
             onClick={handleSave}
           >
             <Bookmark className={`h-5 w-5 ${saved ? 'fill-current' : ''}`} />

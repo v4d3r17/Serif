@@ -1,6 +1,7 @@
 import { createClient } from '@/lib/server'
 import { redirect } from 'next/navigation'
 import { BlogCard } from '@/components/blog-card'
+import { DashboardHeading } from '@/components/dashboard-animations'
 
 export default async function SavedPage() {
   const supabase = await createClient()
@@ -23,12 +24,14 @@ export default async function SavedPage() {
 
   return (
     <div className="flex flex-col gap-8 max-w-6xl mx-auto w-full pb-10">
-      <div className="flex flex-col gap-1.5">
-        <h1 className="text-3xl font-bold tracking-tight">Saved Stories</h1>
-        <p className="text-muted-foreground text-sm font-medium">
-          Posts you&apos;ve bookmarked for later reading.
-        </p>
-      </div>
+      <DashboardHeading>
+        <div className="flex flex-col gap-1.5">
+          <h1 className="text-3xl font-bold tracking-tight">Saved Stories</h1>
+          <p className="text-muted-foreground text-sm font-medium">
+            Posts you&apos;ve bookmarked for later reading.
+          </p>
+        </div>
+      </DashboardHeading>
 
       {!saves || saves.length === 0 ? (
         <div className="py-20 text-center border rounded-xl border-dashed bg-muted/20">
