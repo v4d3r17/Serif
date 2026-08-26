@@ -109,10 +109,8 @@ export function DashboardNavCarousel() {
       // 1) Immediately animate the carousel to the new position
       setVisualIndex(targetIndex);
 
-      // 2) Navigate after the slide animation has played (~420ms)
-      navigateTimer.current = setTimeout(() => {
-        router.push(url);
-      }, 420);
+      // 2) Navigate immediately instead of waiting for the animation
+      router.push(url);
     },
     [router, visualIndex]
   );
